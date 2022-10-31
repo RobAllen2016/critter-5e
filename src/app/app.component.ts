@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import * as critical_data from '../assets/crit-weapon.json';
+import * as ranged_critical_data from '../assets/crit-ranged.json';
 import * as fumble_data from '../assets/fumble-weapon.json';
 import * as spell_critical_data from '../assets/crit-spell.json';
 import * as spell_fumble_data from '../assets/fumble-spell.json';
@@ -19,6 +20,7 @@ export class AppComponent {
   result;
 
   critWeapon;
+  critRanged;
   critSpell;
   fumbleWeapon;
   fumbleSpell;
@@ -30,6 +32,7 @@ export class AppComponent {
   constructor(private formBuilder: FormBuilder) {
 
     this.critWeapon = (<any>critical_data);
+    this.critRanged = (<any>ranged_critical_data)
     this.fumbleWeapon = (<any>fumble_data);
     this.critSpell = (<any>spell_critical_data);
     this.fumbleSpell = (<any>spell_fumble_data);
@@ -67,8 +70,11 @@ export class AppComponent {
 
     if (roll >= 1 || roll <= 100) {
       if (func === 'critical') {
-        if (type === 'melee' || type === 'ranged') {
+        if (type === 'melee') {
           returnValue = this.findInList(roll, this.critWeapon);
+        } else if (type === 'ranged') {
+          returnValue = this.findInList(roll, this.critRanged);
+        }
         } else if (type === 'spell') {
           returnValue = this.findInList(roll, this.critSpell);
         } else {
